@@ -1,5 +1,7 @@
 package com.dvns.dvns_identity_service.dto.request;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 /**
@@ -18,7 +20,11 @@ import java.time.LocalDate;
  */
 
 public class UserCreationRequest {
+
+    @Size(min = 8, message = "Username must be at least 8 characters !")
     private String username;
+
+    @Size(min = 8, message = "Password must be at least 8 characters !")
     private String password;
     private String firstname;
     private String lastname;
