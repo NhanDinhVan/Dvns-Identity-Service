@@ -1,24 +1,24 @@
-package com.dvns.dvns_identity_service.dto.request;
+package com.dvns.dvns_identity_service.dto.response;
 
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 /**
- * UserCreationRequest
+ * UserResponse
  * <p>
  * Version 1.0
  * <p>
- * Date:  1/14/2025
+ * Date:  1/22/2025
  * <p>
  * Copyright
  * <p>
  * Modification Logs:
  * DATE        AUTHOR        DESCRIPTION
  * --------------------------------------
- * 1/14/2025    NhanDinhVan    Create
+ * 1/22/2025    NhanDinhVan    Create
  */
 
 @Data
@@ -26,13 +26,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationRequest {
-
-    @Size(min = 8, message = "USERNAME_INVALID")
+public class UserResponse {
+    String id;
     String username;
-
-    @Size(min = 8, message = "PASSWORD_INVALID")
-    String password;
     String firstname;
     String lastname;
     LocalDate dob;

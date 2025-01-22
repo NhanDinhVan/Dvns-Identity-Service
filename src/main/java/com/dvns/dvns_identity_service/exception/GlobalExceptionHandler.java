@@ -1,6 +1,6 @@
 package com.dvns.dvns_identity_service.exception;
 
-import com.dvns.dvns_identity_service.dto.request.ApiResponse;
+import com.dvns.dvns_identity_service.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
