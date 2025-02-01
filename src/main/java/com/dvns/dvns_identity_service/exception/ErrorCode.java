@@ -17,6 +17,7 @@ package com.dvns.dvns_identity_service.exception;
 
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized Exception !"),
+    UNAUTHENTICATED(1006, "Unauthenticated !"),
     USER_NOT_EXISTED(1005, "User not existed !"),
     ERROR_KEY_INVALID(1004, "Enum Key invalid !"),
     USERNAME_INVALID(1003, "Username must be at least 8 characters !"),
