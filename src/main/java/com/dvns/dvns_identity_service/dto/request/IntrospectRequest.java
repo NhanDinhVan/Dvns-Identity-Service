@@ -1,29 +1,28 @@
-package com.dvns.dvns_identity_service.dto.response;
+package com.dvns.dvns_identity_service.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /**
- * AuthenticationResponse
+ * IntrospectToken
  * <p>
  * Version 1.0
  * <p>
- * Date:  1/24/2025
+ * Date:  2/1/2025
  * <p>
  * Copyright
  * <p>
  * Modification Logs:
  * DATE        AUTHOR        DESCRIPTION
  * --------------------------------------
- * 1/24/2025    NhanDinhVan    Create
+ * 2/1/2025    NhanDinhVan    Create
  */
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
+@Builder
+public class IntrospectRequest {
     String token;
-    boolean authenticated;
 }
