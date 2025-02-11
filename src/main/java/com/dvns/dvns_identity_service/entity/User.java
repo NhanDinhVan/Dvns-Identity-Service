@@ -1,13 +1,12 @@
 package com.dvns.dvns_identity_service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User
@@ -39,4 +38,6 @@ public class User {
     String firstname;
     String lastname;
     LocalDate dob;
+    @ElementCollection
+    Set<String> roles;
 }
