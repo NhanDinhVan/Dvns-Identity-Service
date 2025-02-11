@@ -4,6 +4,7 @@ import com.dvns.dvns_identity_service.dto.request.UserCreationRequest;
 import com.dvns.dvns_identity_service.dto.request.UserUpdateRequest;
 import com.dvns.dvns_identity_service.dto.response.UserResponse;
 import com.dvns.dvns_identity_service.entity.User;
+import com.dvns.dvns_identity_service.enums.Role;
 import com.dvns.dvns_identity_service.exception.AppException;
 import com.dvns.dvns_identity_service.exception.ErrorCode;
 import com.dvns.dvns_identity_service.mapper.UserMapper;
@@ -12,12 +13,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.antlr.v4.runtime.ListTokenSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * UserService
@@ -39,6 +43,7 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreationRequest request){
 
@@ -46,7 +51,10 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
 
         User user = userMapper.toUser(request);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        Set<String> roles = new HashSet<>(List.of(Role.USER.name()));
+
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         return userMapper.toUserResponse(userRepository.save(user));

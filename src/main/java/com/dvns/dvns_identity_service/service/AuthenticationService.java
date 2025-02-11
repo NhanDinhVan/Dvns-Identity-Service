@@ -4,6 +4,7 @@ import com.dvns.dvns_identity_service.dto.request.AuthenticationRequest;
 import com.dvns.dvns_identity_service.dto.request.IntrospectRequest;
 import com.dvns.dvns_identity_service.dto.response.AuthenticationResponse;
 import com.dvns.dvns_identity_service.dto.response.IntrospectResponse;
+import com.dvns.dvns_identity_service.entity.User;
 import com.dvns.dvns_identity_service.exception.AppException;
 import com.dvns.dvns_identity_service.exception.ErrorCode;
 import com.dvns.dvns_identity_service.repository.UserRepository;
@@ -22,11 +23,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
+import java.util.StringJoiner;
 
 /**
  * AuthenticationService
@@ -64,7 +69,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .authenticated(authenticated)
-                .token(generateToken(request.getUsername()))
+                .token(generateToken(user))
                 .build();
     }
 
@@ -84,16 +89,16 @@ public class AuthenticationService {
                 .build();
     }
 
-    private String generateToken(String username){
+    private String generateToken(User user){
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(user.getUsername())
                 .issuer("dvns.id.vn")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("customClaim", "Custom")
+                .claim("scope", builtScope(user))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
@@ -107,5 +112,14 @@ public class AuthenticationService {
             throw new RuntimeException(e);
         }
 
+    }
+    private String builtScope(User user){
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        if(!CollectionUtils.isEmpty(user.getRoles())){
+            user.getRoles().forEach(stringJoiner::add);
+        }
+
+        return stringJoiner.toString();
     }
 }
